@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/kwhitejr/redacted/issues"
   },
-  "homepage": "https://github.com/kwhitejr/redacted#readme"
+  "homepage": "https://github.com/kwhitejr/redacted#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
