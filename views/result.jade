@@ -1,0 +1,11 @@
+extends ./layout.jade
+
+block content
+  if msg
+    p #{msg}
+  else if errMsg
+    p #{errMsg}
+  else
+    p Keep trying brah.
+  a(href='/')
+    button go back

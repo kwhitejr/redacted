@@ -3,33 +3,32 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+app.set('views', 'views');
+app.set('view engine', 'jade');
+
 app.use(bodyParser.urlencoded({extend: false}));
 
-app.use(function (req, res, next) {
-  console.log('The parsed body is: ');
-  console.log(req.body);
-  return next();
-});
+app.use(express.static('public'));
 
-app.use('/',
-  validateMessage,
-  messageConverter
-);
 
 app.route('/')
   .get(function (req, res) {
     console.log('rendering index.jade...');
-    res.render('index', {pageTitle: msgConverter});
+    res.render('index', {pageTitle: 'Msg Converter'});
   })
-  .post(function (req, res) {
-    res.send(res.locals.msg);
-  });
+  .post(
+    validateMessage,
+    messageConverter,
+    function (req, res) {
+      // sends the object containing the res.locals variables
+      res.render('result', res.locals);
+    });
 
 function validateMessage(req, res, next) {
   if (!req.body.msg) {
     res.status(400);
     // sending both writes and ends the connection/stream
-    return res.send('Please provide a \'msg\'');
+    return res.render('result', {errMsg: 'Please provide a \'msg\''});
   }
   res.locals.msg = req.body.msg;
   return next();
